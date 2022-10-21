@@ -17,7 +17,7 @@ namespace SweetSavory.Controllers
     [HttpGet("/")]
     public ActionResult Index() 
     { 
-      dynamic model = new ExpoObject();
+      dynamic model = new ExpandoObject();
       model.Treat = _db.Treats.ToList();
       model.Flavor = _db.Flavors.ToList();
       return View(model); 

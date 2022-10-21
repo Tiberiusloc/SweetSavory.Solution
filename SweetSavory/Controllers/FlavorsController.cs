@@ -34,6 +34,7 @@ namespace SweetSavory.Controllers
     {
       _db.Flavors.Add(flavor);
       _db.SaveChanges();
+      ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "TreatName");
       return RedirectToAction("Index");
     }
 
@@ -60,9 +61,9 @@ namespace SweetSavory.Controllers
     [HttpPost]
     public ActionResult AddTreat(Flavor flavor, int TreatId)
     {
-      if(TreatId != 0 && !_db.TreatFlavors.Any(model => model.FlavorId == flavor.FlavorId && model.TreatId == TreatId))
+      if(TreatId != 0 && !_db.FlavorTreat.Any(model => model.FlavorId == flavor.FlavorId && model.TreatId == TreatId))
       {
-        _db.TreatFlavors.Add(new TreatFlavors() {TreatId = TreatId, FlavorId = flavor.FlavorId});
+        _db.FlavorTreat.Add(new FlavorTreat() {TreatId = TreatId, FlavorId = flavor.FlavorId});
         _db.SaveChanges();
       }
       return RedirectToAction("AddTreat");
@@ -71,8 +72,8 @@ namespace SweetSavory.Controllers
     [HttpPost]
     public ActionResult DeleteTreat(int joinId, int id) 
     {
-      var joinEntry = _db.TreatFlavors.FirstOrDefault(entry => entry.TreatFlavorsId == joinId);
-      _db.TreatFlavors.Remove(joinEntry);
+      var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
+      _db.FlavorTreat.Remove(joinEntry);
       _db.SaveChanges();
       var model = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
       return View("Details", model);
