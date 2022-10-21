@@ -1,0 +1,36 @@
+@{
+  Layout = "_Layout";
+}
+
+@model SweetSavory.Models.Treat;
+
+<div class="container">
+  <h2 class="text-center my-4">Treat Details</h2>
+  <hr />
+  <div class="d-flex flex-column align-items-center">
+    <h3>Name: @Html.DisplayFor(model => model.TreatName)</h3>
+    <h4>@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)</h4>
+    <h4>@Html.DisplayNameFor(model => model.Rating): @Html.DisplayFor(model => model.Rating)</h4>
+
+    @if(@Model.JoinEntities.Count == 0)
+    {
+      <p>This treat does not contain any flavors</p>
+    }
+    else
+    {
+      <h4>Flavors the treat contains:</h4>
+      <ul>
+      @foreach(var join in Model.JoinEntities)
+      {
+        <li>@join.Flavor.FlavorName</li>
+      }
+      </ul>
+    }
+  </div>
+  <div class="d-flex flex-row justify-content-center">
+    <p class="fancyBtn mx-3">@Html.ActionLink("Back to treats", "Index")</p>
+    <p class="fancyBtn mx-3">@Html.ActionLink("Edit Treat", "Edit", new { id = Model.TreatId })</p>
+    <p class="fancyBtn mx-2">@Html.ActionLink("Add a Flavor", "AddFlavor", new { id = Model.TreatId })</p>
+    <p class="fancyBtn mx-3">@Html.ActionLink("Delete Treat", "Delete", new { id = Model.TreatId })</p>
+  </div>
+</div>
