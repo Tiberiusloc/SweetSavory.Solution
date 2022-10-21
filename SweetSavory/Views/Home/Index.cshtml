@@ -1,0 +1,60 @@
+@{
+  Layout = "_Layout";
+}
+
+@using SweetSavory.Models;
+@model dynamic;
+
+<h1>Welcome to Pierres!</h1>
+
+@if(!User.Identity.IsAuthenticated)
+{
+  <p style="color:red">Please login to access all features</p>
+}
+@if(@Model.Treat.Count == 0 && @Model.Flavor.Count == 0)
+{
+  <br>
+  <p>No Treats or Flavors Availible</p>
+}
+else
+{
+  <div class="row">
+    <div class="col-6">
+      <table class="table table-bordered ">
+        <thead>
+          <tr>
+              <th>Today's Treats</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach(var treat in Model.Treat)
+          {
+          <tr>
+              <td>@Html.ActionLink($"{treat.TreatName}", "Details", "Treats", new{id = treat.TreatId})</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="col-6">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+              <th>Today's Flavors</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach(var flavor in Model.Flavor)
+          {
+          <tr>
+              <td>@Html.ActionLink($"{flavor.FlavorName}", "Details", "Flavors", new{id = flavor.FlavorId})</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>}
+<br>
+<h4 class="h4">@Html.ActionLink("View All Treats", "Index", "Treats")</h4>
+<br>
+<h4 class="h4">@Html.ActionLink("View All Flavors", "Index", "Flavors")</h4>
